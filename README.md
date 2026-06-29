@@ -62,10 +62,14 @@ sqlite3_open(":memory:", &db);
 Everything is committed at the repository root so it can also be used without
 SPM:
 
-- `SQLite.xcframework/` — the binary target consumed by SPM
+- `SQLite.xcframework/` — the binary target consumed by SPM (each slice carries
+  its own `Headers/` + `SQLite` Clang module map, so `import SQLite` works)
 - `libsqlite3-macos.a`, `libsqlite3-ios.a`, `libsqlite3-iossimulator.a` — the raw static libraries
 - `sqlite3.h`, `sqlite3ext.h` — public headers
-- `module.modulemap` — the `SQLite` module map
+
+> Note: there is intentionally **no** `module.modulemap` at the repo root — a
+> root module map makes SwiftPM treat the whole package as a legacy system
+> library and ignore the binary target.
 
 ## Build provenance
 
